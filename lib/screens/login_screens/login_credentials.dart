@@ -29,7 +29,7 @@ class _LoginCredentialsState extends State<LoginCredentials> {
         margin: EdgeInsets.only(top: 50),
         child: Center(
           child: Container(
-            height: 0.8 * MediaQuery.of(context).size.height,
+            height: 0.5 * MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width - 20,
             decoration: BoxDecoration(
                 color: Colors.white,

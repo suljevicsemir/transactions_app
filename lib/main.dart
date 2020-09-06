@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:transactions_app/screens/pin_screen.dart';
 import 'package:transactions_app/screens/wrapper.dart';
 
 void main() async{
@@ -14,9 +15,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Wrapper.route,
+      initialRoute: PINState.route,
       routes: {
-        Wrapper.route : (context) => Wrapper()
+        Wrapper.route : (context) => Wrapper(),
+        PINState.route : (context) => PINState(),
       },
     );
   }
