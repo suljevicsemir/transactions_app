@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/widget/pin_circle.dart';
 import 'package:transactions_app/widget/pin_number_widget.dart';
@@ -18,8 +19,23 @@ class _PINStateState extends State<PINState> {
   _increment() {
     setState(() {
       _numbersEntered++;
+      FlutterBeep.beep();
     });
   }
+
+  _reset() {
+    setState(() {
+      _numbersEntered = 0;
+    });
+  }
+
+  _deleteLast() {
+    setState(() {
+      _numbersEntered--;
+    });
+  }
+
+
 
 
   @override
@@ -34,8 +50,9 @@ class _PINStateState extends State<PINState> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Spacer(),
               Text('Enter your PIN security number'),
-              SizedBox(height: 40,),
+              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -45,7 +62,6 @@ class _PINStateState extends State<PINState> {
                   PINCircle(changeColor: _numbersEntered >= 4,),
                   PINCircle(changeColor: _numbersEntered >= 5,),
                   PINCircle(changeColor: _numbersEntered >= 6,),
-
                 ],
               ),
               Spacer(),
@@ -80,13 +96,21 @@ class _PINStateState extends State<PINState> {
                         PINNumber(9, _increment),
                       ],
                     ),
+                    SizedBox(height: 50),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         FlatButton(
-                          onPressed: () {},
-                          child: Text('Exit'),
+                          onPressed: () => _reset(),
+                          splashColor: Colors.white,
+                          child: Text('Reset'),
                         ),
+                        PINNumber(0, _increment),
+                        FlatButton(
+                          onPressed: () => _deleteLast(),
+                          splashColor: Colors.white,
+                          child: Text('Delete'),
+                        )
                       ],
                     )
                   ],
