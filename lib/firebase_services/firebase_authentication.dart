@@ -26,6 +26,13 @@ class FirebaseAuthentication {
 
 
 
+  isSignedIn() {
+    return _firebaseAuth.currentUser != null;
+  }
+
+
+
+
 
 
 
