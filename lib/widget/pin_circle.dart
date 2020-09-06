@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 class PINCircle extends StatefulWidget {
 
 
-  final assignedNumber, counter;
-
-  PINCircle({this.assignedNumber, this.counter});
+  final changeColor;
+  PINCircle({this.changeColor});
 
 
 
@@ -24,7 +23,7 @@ class _PINCircleState extends State<PINCircle> {
 
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: widget.assignedNumber < widget.counter ? Colors.red : Colors.blueAccent,
+        color: widget.changeColor ? Colors.red : Colors.blueAccent,
       ),
     );
   }

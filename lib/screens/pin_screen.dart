@@ -39,12 +39,12 @@ class _PINStateState extends State<PINState> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  PINCircle(assignedNumber: 1, counter: _numbersEntered,),
-                  PINCircle(assignedNumber: 2, counter: _numbersEntered,),
-                  PINCircle(assignedNumber: 3, counter: _numbersEntered,),
-                  PINCircle(assignedNumber: 4, counter: _numbersEntered,),
-                  PINCircle(assignedNumber: 5, counter: _numbersEntered,),
-                  PINCircle(assignedNumber: 6, counter: _numbersEntered,),
+                  PINCircle(changeColor: _numbersEntered >= 1,),
+                  PINCircle(changeColor: _numbersEntered >= 2,),
+                  PINCircle(changeColor: _numbersEntered >= 3,),
+                  PINCircle(changeColor: _numbersEntered >= 4,),
+                  PINCircle(changeColor: _numbersEntered >= 5,),
+                  PINCircle(changeColor: _numbersEntered >= 6,),
 
                 ],
               ),
@@ -78,6 +78,15 @@ class _PINStateState extends State<PINState> {
                         PINNumber(7, _increment),
                         PINNumber(8, _increment),
                         PINNumber(9, _increment),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text('Exit'),
+                        ),
                       ],
                     )
                   ],
