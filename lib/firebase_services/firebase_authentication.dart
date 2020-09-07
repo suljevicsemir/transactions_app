@@ -13,12 +13,24 @@ class FirebaseAuthentication {
 
     //registration succeeded
     if( user != null) {
+      print('User created!');
+      print('Email: ${user.email.toString()}');
+      _firebaseAuth.signInWithEmailAndPassword(email: model.email , password: model.password);
 
+      return true;
     }
 
-
-
+    return false;
+    
   }
+
+  signOut() {
+    _firebaseAuth.signOut();
+  }
+  
+
+  
+  
 
 
 
