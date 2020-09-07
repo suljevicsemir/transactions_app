@@ -31,7 +31,7 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
       else {
         String pinSaved = await _hasPIN();
         if(pinSaved == pin) {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/navigationBar');
         }
         else {
           Scaffold.of(context).showSnackBar(SnackBar(

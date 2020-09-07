@@ -30,7 +30,7 @@ class FirebaseAuthentication {
    await _firebaseAuth.signInWithEmailAndPassword(email: model.email, password: model.password);
   }
 
-  signOut() {
+   signOut() {
     _firebaseAuth.signOut();
   }
 
@@ -39,6 +39,8 @@ class FirebaseAuthentication {
     transaction.set(_firestoreInstance.collection('accounts').doc(model.id), model.toJson());
   });
   }
+
+
 
 
 

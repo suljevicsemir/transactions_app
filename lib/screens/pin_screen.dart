@@ -18,7 +18,6 @@ class _PINStateState extends State<PINState> {
     return Scaffold(
       backgroundColor: Palette.themeGreen,
       extendBodyBehindAppBar: true,
-
       body: Center(
         child: Container(
           margin: EdgeInsets.only(top: 50),
