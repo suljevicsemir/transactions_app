@@ -21,7 +21,8 @@ class CustomTextField extends StatefulWidget {
   final keyboardType;
   final hintText;
   final obscureText;
-  CustomTextField({this.controller, this.keyboardType, this.hintText, this.obscureText});
+  final focusNode;
+  CustomTextField({this.controller, this.keyboardType, this.hintText, this.obscureText, this.focusNode});
 
 
   @override
@@ -51,6 +52,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       color: Colors.grey.withOpacity(0.2),
       margin: EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        style: widget.fieldStyle,
+        focusNode: widget.focusNode,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         decoration: inputDecoration,

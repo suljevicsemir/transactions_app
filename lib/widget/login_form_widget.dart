@@ -49,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
                  TextSpan(text: 'Create an account', style: TextStyle(color: Palette.themeGreen),
                  recognizer: TapGestureRecognizer()
                  ..onTap  = () {
-
+                    Navigator.pushReplacementNamed(context, '/accountCreate');
                  })
                ]),
              )
