@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:transactions_app/widget/alert_dialog_widget.dart';
 import 'package:transactions_app/widget/pin_circle.dart';
 
 class PINRequestWidget extends StatefulWidget {
@@ -12,11 +13,34 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
 
   int _numbersEntered = 0;
 
-  _increment() {
+  _increment() async {
     setState(() {
       _numbersEntered++;
+      print(_numbersEntered.toString());
       FlutterBeep.beep();
     });
+
+    if(_numbersEntered == 6) {
+      bool hasPIN = await _readPIN() == 0 ? false : true;
+      if(!hasPIN) {
+        showDialog(
+          context: context,
+          builder: (_) => PINAlertDialog(pin)
+        );
+      }
+      else {
+        String pinSaved = await _hasPIN();
+        if(pinSaved == pin) {
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+        else {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text('WRONG PIN!', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+            backgroundColor: Colors.pinkAccent,
+          ));
+        }
+      }
+    }
   }
 
 
@@ -24,7 +48,6 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
   _addToPIN(number) {
    setState(() {
      pin = pin + number.toString();
-     print(pin);
    });
   }
 

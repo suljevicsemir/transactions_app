@@ -21,7 +21,6 @@ class PINAlertDialog extends StatelessWidget {
       actions: [
         FlatButton(
           onPressed: (){
-
           },
           child: Text('NO'),
         ),
