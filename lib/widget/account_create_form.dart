@@ -85,7 +85,32 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                   color: Palette.themeGreen,
                   splashColor: Colors.white,
                   padding: EdgeInsets.only(top: 15, bottom: 15),
-                  onPressed: () => _firebaseAuthentication.createAccount(AccountRegistrationModel(_emailController.text, _passwordController.text)),
+                  onPressed: () async{
+                    bool x = await _firebaseAuthentication.createAccount(
+                        AccountRegistrationModel(email: _emailController.text,
+                            password: _passwordController.text,
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            displayName: _displayNameController.text)
+                    );
+                    if( x ) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text('Account created successfully!'),
+                        backgroundColor: Colors.yellowAccent,
+                        duration: const Duration(milliseconds: 400),
+                      ));
+                      Future.delayed(const Duration(milliseconds: 450), () {
+                        Navigator.pushReplacementNamed(context, '/home');
+                      });
+                    }
+                    else {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text('Something went wrong. Try again'),
+                        backgroundColor: Colors.pinkAccent,
+                        duration: const Duration(milliseconds: 300),
+                      ));
+                    }
+                  },
                   child: Text('Create account', style: TextStyle(color: Colors.white, fontSize: 18),),
                 ),
               ),

@@ -42,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
                  ),
                ),
              ),
-             SizedBox(height: 10,),
+             SizedBox(height: 30,),
              RichText(
                text: TextSpan(text: 'Don\'t have an account ?  ', style: TextStyle(color: Colors.grey) ,
                children: [

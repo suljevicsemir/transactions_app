@@ -18,7 +18,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AccountCreate.route,
+      initialRoute: Wrapper.route,
       routes: {
         Wrapper.route : (context) => Wrapper(),
         PINState.route : (context) => PINState(),

@@ -110,77 +110,80 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              PINCircle(changeColor: _numbersEntered >= 1,),
-              PINCircle(changeColor: _numbersEntered >= 2,),
-              PINCircle(changeColor: _numbersEntered >= 3,),
-              PINCircle(changeColor: _numbersEntered >= 4,),
-              PINCircle(changeColor: _numbersEntered >= 5,),
-              PINCircle(changeColor: _numbersEntered >= 6,),
-            ],
+    return Container(
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 80),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                PINCircle(changeColor: _numbersEntered >= 1,),
+                PINCircle(changeColor: _numbersEntered >= 2,),
+                PINCircle(changeColor: _numbersEntered >= 3,),
+                PINCircle(changeColor: _numbersEntered >= 4,),
+                PINCircle(changeColor: _numbersEntered >= 5,),
+                PINCircle(changeColor: _numbersEntered >= 6,),
+              ],
+            ),
           ),
-        ),
-        //SizedBox(height: 0.1 * MediaQuery.of(context).size.height,),
-        Container(
-          margin: EdgeInsets.only(bottom: 30),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _pinNumber(1),
-                  _pinNumber(2),
-                  _pinNumber(3),
-                ],
-              ),
-              SizedBox(height: 50,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _pinNumber(4),
-                  _pinNumber(5),
-                  _pinNumber(6),
-                ],
-              ),
-              SizedBox(height: 50,),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _pinNumber(7),
-                  _pinNumber(8),
-                  _pinNumber(9),
-                ],
-              ),
-              SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FlatButton(
-                    onPressed: () => _reset(),
-                    splashColor: Colors.white,
-                    child: Text('Reset'),
-                  ),
-                  _pinNumber(0),
-                  FlatButton(
-                    onPressed: () => _deleteLast(),
-                    splashColor: Colors.white,
-                    child: Text('Delete'),
-                  )
-                ],
-              )
-            ],
-          ),
-        )
-      ],
+          //SizedBox(height: 0.1 * MediaQuery.of(context).size.height,),
+          Container(
+            margin: EdgeInsets.only(bottom: 30),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _pinNumber(1),
+                    _pinNumber(2),
+                    _pinNumber(3),
+                  ],
+                ),
+                SizedBox(height: 50,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _pinNumber(4),
+                    _pinNumber(5),
+                    _pinNumber(6),
+                  ],
+                ),
+                SizedBox(height: 50,),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _pinNumber(7),
+                    _pinNumber(8),
+                    _pinNumber(9),
+                  ],
+                ),
+                SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FlatButton(
+                      onPressed: () => _reset(),
+                      splashColor: Colors.white,
+                      child: Text('Reset'),
+                    ),
+                    _pinNumber(0),
+                    FlatButton(
+                      onPressed: () => _deleteLast(),
+                      splashColor: Colors.white,
+                      child: Text('Delete'),
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+
+      ),
     );
   }
 }
