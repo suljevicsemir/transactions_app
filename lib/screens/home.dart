@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
-import 'package:transactions_app/widget/circle_painter.dart';
+
+import 'file:///C:/Users/ASRock%20pro/Desktop/flutter%20projects/transactions_app/lib/utils/circle_painter.dart';
 
 class Home extends StatefulWidget {
   final _firestoreProvider = FirestoreProvider();
@@ -144,12 +145,32 @@ class _HomeState extends State<Home> {
                   minHeight: 105,
                   maxHeight: double.infinity
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: Container(
+                  margin: EdgeInsets.only(top: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Text('Today', style: TextStyle(color: Colors.white, fontSize: 20)),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(text: '+\$ 8,950', style: TextStyle(color: Palette.themeGreen, fontSize: 20),),
+                              TextSpan(text: '.75', style: TextStyle(color: Palette.themeGreen.withOpacity(0.7), fontSize: 14),)
+                            ]
+                          ),
+                        ),
+                        RichText(
+                        text: TextSpan(
+                            children: [
+                              TextSpan(text: '-\$ 3,200', style: TextStyle(color: Colors.yellow[600], fontSize: 20)),
+                              TextSpan(text: '.25', style: TextStyle(color: Colors.yellow[600].withOpacity(0.7), fontSize: 14))
+                            ]
+                            ),
+                        ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -166,9 +187,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-
-
-
           ],
         )
       )
