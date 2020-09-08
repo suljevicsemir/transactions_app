@@ -1,13 +1,14 @@
 
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transactions_app/firebase_services/firestore_provider.dart';
+import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/widget/circle_painter.dart';
 
 class Home extends StatefulWidget {
-
+  final _firestoreProvider = FirestoreProvider();
   static const route = '/home';
 
   @override
@@ -16,40 +17,29 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  Stream _stream;
-  final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   final  _currentUser = FirebaseAuth.instance.currentUser;
-  DocumentSnapshot userData;
-  String userName;
+  Account _userData = null;
+  var _dynamicHeight = 0.0;
+  bool isQuickActionsShowed = false;
+
   @override
   void initState()  {
     super.initState();
-    isInfoOpened = false;
-
+    if(_userData == null) {
+      _getAccountData().then((value) {
+        setState(() {
+          _userData = value;
+        });
+      });
+    }
   }
 
-  _changeInfoState() {
-    setState(() {
-      if(isInfoOpened) isInfoOpened = false;
-      else isInfoOpened = true;
-    });
-  }
 
-
-  bool isInfoOpened;
-
-  var infoBoxConstraintsOpened = BoxConstraints(
-    minHeight: 200,
-  );
-  var infoBoxConstraintsClosed = BoxConstraints(
-    maxHeight: 100
-  );
 
 
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -60,6 +50,7 @@ class _HomeState extends State<Home> {
                 color: Palette.themeGreen,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +63,7 @@ class _HomeState extends State<Home> {
                               Text('Good morning!', style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 18, letterSpacing: 2.0, fontFamily: 'Roboto'), ),
                               Container(
                                   margin: EdgeInsets.only(top: 10),
-                                  child: Text('John Doe', style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'Roboto', letterSpacing: 2.0),))
+                                  child: _userData == null ? Text('') : Text(_userData.firstName + ' ' + _userData.lastName, style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'Roboto', letterSpacing: 2.0),))
                             ],
                           ),
                         ),
@@ -87,19 +78,35 @@ class _HomeState extends State<Home> {
                         )
                       ],
                     ),
+                    Center(
+                      child: FlatButton(
+                        onPressed: () => _quickActionsChange(),
+                        color: Colors.white.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(color: Colors.white.withOpacity(0.8))
+                        ),
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 500),
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          child: isQuickActionsShowed == true ? Text('Hide Quick Actions') : Text('Show Quick Actions')
+                        ),
+
+                      ),
+                    ),
                     SizedBox(height: 20,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          SizedBox(
-                            width: 70,
-                            height: 70,
-                            child: CustomPaint(
-                              painter: CirclePainter(),
-                              child: Center(child: Text('eeo')),
-                            ),
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CustomPaint(
+                            painter: CirclePainter(),
+                            child: Center(child: Text('eeo')),
                           ),
+                        ),
                         SizedBox(
                           width: 70,
                           height: 70,
@@ -117,7 +124,7 @@ class _HomeState extends State<Home> {
                           ),
                         )
                       ],
-                    )
+                    ),
                   ],
                 )
               ),
@@ -125,7 +132,7 @@ class _HomeState extends State<Home> {
             Positioned(
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
-                margin: EdgeInsets.only(top: 95),
+                margin: EdgeInsets.only(top: 130 + _dynamicHeight),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -133,12 +140,23 @@ class _HomeState extends State<Home> {
                     ),
                     color: Colors.black
                 ),
+                constraints: BoxConstraints(
+                  minHeight: 105,
+                  maxHeight: double.infinity
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                  ],
+                ),
               ),
             ),
             Positioned(
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
-                margin: EdgeInsets.only(top: 160),
+                margin: EdgeInsets.only(top: 185 + _dynamicHeight),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -158,5 +176,27 @@ class _HomeState extends State<Home> {
     );
 
   }
+
+
+
+  Future _getAccountData() async {
+    return await widget._firestoreProvider.getUserData(_currentUser.uid);
+  }
+
+  _quickActionsChange() {
+    setState(() {
+      if(isQuickActionsShowed) {
+        isQuickActionsShowed = false;
+        _dynamicHeight = 0.0;
+      }
+      else {
+        isQuickActionsShowed = true;
+        _dynamicHeight = 100;
+      }
+    });
+  }
+
+
+
 
 }
