@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:transactions_app/palette.dart';
 
 class Expenses extends StatefulWidget {
   @override
@@ -11,8 +12,15 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueAccent,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Palette.themeGreen,
+        body: Column(
+          children: [
+            
+          ],
+        ),
+      ),
     );
   }
 }
