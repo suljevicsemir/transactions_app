@@ -11,6 +11,7 @@ class PINAlertDialog extends StatelessWidget {
   _writePin() async{
     final storage = FlutterSecureStorage();
     await storage.write(key: 'pin', value: _pin);
+    await storage.write(key: 'avatar', value : 'NOAVATAR');
   }
 
   @override

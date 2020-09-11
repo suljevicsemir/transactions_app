@@ -34,6 +34,7 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
           Navigator.pushReplacementNamed(context, '/navigationBar');
         }
         else {
+          _reset();
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('WRONG PIN!', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
             backgroundColor: Colors.pinkAccent,
@@ -79,12 +80,6 @@ class _PINRequestWidgetState extends State<PINRequestWidget> {
     final storage = FlutterSecureStorage();
     Map<String, String> allValues = await storage.readAll();
     return allValues.length;
-  }
-
-  _pinEntered() async {
-    if (_numbersEntered == 6) {
-      final storage = FlutterSecureStorage();
-    }
   }
 
 
