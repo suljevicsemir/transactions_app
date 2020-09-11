@@ -10,9 +10,25 @@ class CirclePainter extends CustomPainter{
   ..strokeWidth = 2
   ..style = PaintingStyle.stroke;
 
+
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawOval(Rect.fromLTWH(0, 0, size.width, size.height), _paint);
+
+    double radius = 20.0;
+    canvas.translate(size.width/2, size.height/2);
+    Offset center = Offset(0.0, 0.0);
+    // draw shadow first
+    Path oval = Path()
+      ..addOval(Rect.fromCircle(center: center, radius: radius+10));
+    Paint shadowPaint = Paint()
+      ..color = Colors.black
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 50);
+    canvas.drawPath(oval, shadowPaint);
+    // draw circle
+    Paint thumbPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, radius, thumbPaint);
   }
 
   @override

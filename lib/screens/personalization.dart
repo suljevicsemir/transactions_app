@@ -10,9 +10,18 @@ class Personalization extends StatefulWidget {
 class _PersonalizationState extends State<Personalization> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.teal,
-
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.teal,
+        body: Column(
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.search, size: 20,),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
