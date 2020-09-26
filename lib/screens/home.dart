@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
+import 'package:transactions_app/utils/circle_painter.dart';
 import 'package:transactions_app/widget/transfer_list_item.dart';
 import 'package:transactions_app/widget/transfers_search_header.dart';
 
-import 'file:///C:/Users/ASRock%20pro/Desktop/flutter%20projects/transactions_app/lib/utils/circle_painter.dart';
 
 class Home extends StatefulWidget {
   final _firestoreProvider = FirestoreProvider();
