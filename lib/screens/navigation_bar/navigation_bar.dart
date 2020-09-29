@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/screens/add_transfer.dart';
+import 'package:transactions_app/screens/contacts.dart';
 import 'package:transactions_app/screens/expenses.dart';
 import 'package:transactions_app/screens/home.dart';
-import 'package:transactions_app/screens/personalization.dart';
-
 class AppNavigationBar extends StatefulWidget {
 
   static const route = '/navigationBar';
@@ -23,7 +22,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     Home(),
     Expenses(),
     AddTransfer(),
-    Personalization()
+    Contacts()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -42,28 +41,20 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           GestureDetector(
-            onTap: () {
-              _setNavigationBarIndex(0);
-            },
+            onTap: () => _setNavigationBarIndex(0),
             child: _navigationBarItem('Home', _navigationBarIndex == 0),
           ),
           GestureDetector(
-            onTap: () {
-              _setNavigationBarIndex(1);
-            },
-          child: _navigationBarItem('Expenses', _navigationBarIndex == 1),
+            onTap: () =>  _setNavigationBarIndex(1),
+            child: _navigationBarItem('Expenses', _navigationBarIndex == 1),
           ),
           GestureDetector(
-            onTap: () {
-              _setNavigationBarIndex(2);
-            },
+            onTap: () =>  _setNavigationBarIndex(2),
             child: _navigationBarItem('New transfer', _navigationBarIndex == 2)
           ),
           GestureDetector(
-              onTap: () {
-                _setNavigationBarIndex(3);
-              },
-              child: _navigationBarItem('About', _navigationBarIndex == 3)
+            onTap: () => _setNavigationBarIndex(3),
+            child: _navigationBarItem('Contacts', _navigationBarIndex == 3),
           )
         ],
       ),
@@ -118,10 +109,12 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         );
       }
 
-      if(selected == true) {
-        return Icon(Icons.person);
+      if( title == 'Contacts') {
+
+          return Icon(Icons.group, color: Colors.black,);
+
       }
-      return Icon(Icons.person_outline);
+
     }
     return Icon(Icons.add_to_queue, size: 28);
   }

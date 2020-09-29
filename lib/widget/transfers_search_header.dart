@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:transactions_app/palette.dart';
 
 class TransferSearchHeader extends StatefulWidget {
 
@@ -52,15 +53,18 @@ class _TransferSearchHeaderState extends State<TransferSearchHeader> {
                   padding: EdgeInsets.all(5),
                   child: TransferSearchItem(text: 'Year', selected: _index == 2,)),
             ),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey[300],
-              ),
-              child: IconButton(
-                splashColor: Colors.red,
-                onPressed: () {},
-                icon: Icon(Icons.search, color: Colors.black,),
+            Material(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(30),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                splashColor: Palette.themeGreen,
+                radius: 100,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: Icon(Icons.search, size: 28,),
+                ),
+                onTap: () {},
               ),
             )
           ],
@@ -99,24 +103,27 @@ class _TransferSearchItemState extends State<TransferSearchItem> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedDefaultTextStyle(
-      style: widget.selected == true ? selectedTextStyle : notSelectedTextStyle,
-      duration: const Duration(milliseconds: 100),
-      child: Column(
-        children: [
-          Text(widget.text),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.black
-            ),
-            child: Icon(
-              Icons.radio_button_checked,
-              color: Colors.black,
-              size: widget.selected == true ? 7.0 : 0.0,
-            ),
-          )
-        ],
+    return LimitedBox(
+      child: AnimatedDefaultTextStyle(
+        style: widget.selected == true ? selectedTextStyle : notSelectedTextStyle,
+        duration: const Duration(milliseconds: 100),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(widget.text),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.black
+              ),
+              child: Icon(
+                Icons.radio_button_checked,
+                color: Colors.black,
+                size: widget.selected == true ? 7.0 : 0.0,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

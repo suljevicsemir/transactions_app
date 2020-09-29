@@ -45,201 +45,243 @@ class _HomeState extends State<Home> {
 
     return snapshot.get('url');
   }
-
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  Key _buttonKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: Stack(
-        children: [
-          Container(
-            color: Palette.themeGreen,
-            width: double.infinity,
-            height: double.infinity,
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10, top: 10),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Good morning!',
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
-                            fontSize: 18,
-                            letterSpacing: 2.0,
-                            fontFamily: 'Roboto'),
+        backgroundColor: Palette.themeGreen,
+        key: _drawerKey,
+          body: _userData == null ?
+          Center(child: SizedBox(
+              height: 100,
+              width: 100,
+              child: CircularProgressIndicator( strokeWidth: 10,backgroundColor: Colors.grey, valueColor:  AlwaysStoppedAnimation<Color>(Palette.themeGreen),))) :
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                //color: Palette.themeGreen,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 10, top: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Good morning!',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 18,
+                                    letterSpacing: 2.0,
+                                    fontFamily: 'Roboto'),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: _userData == null
+                                      ? Text('')
+                                      : Text(
+                                    _userData.firstName +
+                                        ' ' +
+                                        _userData.lastName,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                        fontFamily: 'Roboto',
+                                        letterSpacing: 2.0),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, right: 20),
+                          child : Material(
+                            color: Colors.white.withOpacity(0.0),
+                            borderRadius: BorderRadius.circular(30),
+                            child: InkWell(
+                              splashColor: Colors.grey[800],
+                              borderRadius: BorderRadius.circular(30),
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(Icons.menu),
+                              ),
+                              onTap: () async{
+                                await Future.delayed(const Duration(milliseconds: 200), () {} );
+                                _drawerKey.currentState.openEndDrawer();
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Center(
+                      child: FlatButton(
+                        onPressed: () => _quickActionsChange(),
+                        color: Colors.white.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side:
+                            BorderSide(color: Colors.white.withOpacity(0.8))),
+                        child: AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 500),
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                            child: isQuickActionsShowed == true
+                                ? Text('Hide Quick Actions')
+                                : Text('Show Quick Actions')),
                       ),
-                      Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: _userData == null
-                              ? Text('')
-                              : Text(
-                                  _userData.firstName +
-                                      ' ' +
-                                      _userData.lastName,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontFamily: 'Roboto',
-                                      letterSpacing: 2.0),
-                                ))
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CustomPaint(
+                            painter: CirclePainter(),
+                            child: Center(child: Text('eeo')),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CustomPaint(
+                            painter: CirclePainter(),
+                            child: Center(child: Text('eeo')),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CustomPaint(
+                            painter: CirclePainter(),
+                            child: Center(child: Text('eeo')),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                margin: EdgeInsets.only(top: 130 + _dynamicHeight),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                    color: Colors.black),
+                constraints:
+                BoxConstraints(minHeight: 105, maxHeight: double.infinity),
+                child: Container(
+                  margin: EdgeInsets.only(top: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Today',
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                      RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: '+\$ 8,950',
+                            style:
+                            TextStyle(color: Palette.themeGreen, fontSize: 20),
+                          ),
+                          TextSpan(
+                            text: '.75',
+                            style: TextStyle(
+                                color: Palette.themeGreen.withOpacity(0.7),
+                                fontSize: 14),
+                          )
+                        ]),
+                      ),
+                      RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: '-\$ 3,200',
+                              style: TextStyle(
+                                  color: Colors.yellow[600], fontSize: 20)),
+                          TextSpan(
+                              text: '.25',
+                              style: TextStyle(
+                                  color: Colors.yellow[600].withOpacity(0.7),
+                                  fontSize: 14))
+                        ]),
+                      ),
                     ],
                   ),
                 ),
-                Spacer(),
-                Container(
-                    margin: EdgeInsets.only(right: 20, top: 20),
-                    child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage("images/avatar_white_male.png"),
-                        radius: 30,
-                        backgroundColor: Colors.white))
-              ],
-            ),
-            Center(
-              child: FlatButton(
-                onPressed: () => _quickActionsChange(),
-                color: Colors.white.withOpacity(0.1),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side:
-                        BorderSide(color: Colors.white.withOpacity(0.8))),
-                child: AnimatedDefaultTextStyle(
-                    duration: const Duration(milliseconds: 500),
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    child: isQuickActionsShowed == true
-                        ? Text('Hide Quick Actions')
-                        : Text('Show Quick Actions')),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: CustomPaint(
-                    painter: CirclePainter(),
-                    child: Center(child: Text('eeo')),
-                  ),
-                ),
-                SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: CustomPaint(
-                    painter: CirclePainter(),
-                    child: Center(child: Text('eeo')),
-                  ),
-                ),
-                SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: CustomPaint(
-                    painter: CirclePainter(),
-                    child: Center(child: Text('eeo')),
-                  ),
-                )
-              ],
-            ),
-          ],
-            ),
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            margin: EdgeInsets.only(top: 130 + _dynamicHeight),
-            decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30),
-                topLeft: Radius.circular(30)),
-            color: Colors.black),
-            constraints:
-            BoxConstraints(minHeight: 105, maxHeight: double.infinity),
-            child: Container(
-          margin: EdgeInsets.only(top: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Today',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
-              RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                    text: '+\$ 8,950',
-                    style:
-                        TextStyle(color: Palette.themeGreen, fontSize: 20),
-                  ),
-                  TextSpan(
-                    text: '.75',
-                    style: TextStyle(
-                        color: Palette.themeGreen.withOpacity(0.7),
-                        fontSize: 14),
+              AnimatedContainer(
+                  width: double.infinity,
+                  height: double.infinity,
+                  duration: const Duration(milliseconds: 500),
+                  margin: EdgeInsets.only(top: 185 + _dynamicHeight),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
+                      color: Colors.white),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TransferSearchHeader(),
+                      StreamBuilder(
+                        stream: widget._firestoreProvider.stream,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData) return CircularProgressIndicator();
+
+                          return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            shrinkWrap: true,
+                            itemBuilder: (builder, index) {
+                              return TransferListItem(snapshot.data.documents[index]);
+                            },
+                          );
+                        },
+
+                      )
+                    ],
                   )
-                ]),
-              ),
-              RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: '-\$ 3,200',
-                      style: TextStyle(
-                          color: Colors.yellow[600], fontSize: 20)),
-                  TextSpan(
-                      text: '.25',
-                      style: TextStyle(
-                          color: Colors.yellow[600].withOpacity(0.7),
-                          fontSize: 14))
-                ]),
               ),
             ],
           ),
+        floatingActionButton: Material(
+          color: Palette.themeGreen,
+          borderRadius: BorderRadius.circular(40),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(40),
+            splashColor: Colors.white,
+            radius: 100,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Icon(Icons.message, size: 30, color: Colors.grey[700],),
             ),
+            onTap: () {
+              Navigator.pushNamed(context, '/customer_support');
+            },
           ),
-          AnimatedContainer(
-           width: double.infinity,
-           height: double.infinity,
-           duration: const Duration(milliseconds: 500),
-           margin: EdgeInsets.only(top: 185 + _dynamicHeight),
-           decoration: BoxDecoration(
-           borderRadius: BorderRadius.only(
-               topRight: Radius.circular(30),
-               topLeft: Radius.circular(30)),
-           color: Colors.white),
-           child: Column(
-             crossAxisAlignment: CrossAxisAlignment.center,
-             mainAxisAlignment: MainAxisAlignment.start,
-             children: [
-                TransferSearchHeader(),
-                StreamBuilder(
-                  stream: widget._firestoreProvider.stream,
-                  builder: (context, snapshot) {
-                    if(!snapshot.hasData) return CircularProgressIndicator();
-
-                    return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      shrinkWrap: true,
-                      itemBuilder: (builder, index) {
-                        return TransferListItem(snapshot.data.documents[index]);
-                      },
-                    );
-                  },
-
-                )
-             ],
-           )
+        ),
+        endDrawer: Drawer(
+          child: Column(
+            children: [
+              Text('ja sam konj')
+            ],
           ),
-        ],
-            )
+        ),
       ),
     );
   }
