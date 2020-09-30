@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:transactions_app/palette.dart';
 
 class DrawerItem extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _DrawerItemState extends State<DrawerItem> {
       },
       onLongPress: () {
         changePressed();
-        Timer(const Duration(milliseconds: 200), () {
+        Timer(const Duration(milliseconds: 450), () {
           changePressed();
         });
       },
@@ -41,7 +42,7 @@ class _DrawerItemState extends State<DrawerItem> {
         curve: Curves.linear,
         duration: const Duration(milliseconds: 400),
         decoration: BoxDecoration(
-          color: _pressed == true ? Colors.grey[600] : Colors.white
+          color: _pressed == true ? Palette.themeGreen : Colors.white
         ),
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
