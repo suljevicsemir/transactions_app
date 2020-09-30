@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
-import 'package:transactions_app/screens/home/home_widgets/drawer_items_list.dart';
+import 'package:transactions_app/screens/home/home_widgets/drawer_widgets/drawer_items_list.dart';
 import 'package:transactions_app/utils/circle_painter.dart';
 import 'package:transactions_app/widget/transfer_list_item.dart';
 import 'package:transactions_app/widget/transfers_search_header.dart';

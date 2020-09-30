@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:transactions_app/screens/home/home_widgets/drawer_item.dart';
-import 'package:transactions_app/screens/home/home_widgets/list_divider.dart';
+import 'package:transactions_app/screens/home/home_widgets/drawer_widgets/drawer_item.dart';
+import 'package:transactions_app/screens/home/home_widgets/drawer_widgets/list_divider.dart';
 
 class AboutItems extends StatefulWidget {
   @override
