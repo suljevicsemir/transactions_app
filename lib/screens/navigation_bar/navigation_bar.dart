@@ -5,7 +5,7 @@ import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/screens/add_transfer.dart';
 import 'package:transactions_app/screens/contacts.dart';
 import 'package:transactions_app/screens/expenses.dart';
-import 'package:transactions_app/screens/home.dart';
+import 'package:transactions_app/screens/home/home.dart';
 class AppNavigationBar extends StatefulWidget {
 
   static const route = '/navigationBar';

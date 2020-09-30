@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/screens/customer_support/screen.dart';
-import 'package:transactions_app/screens/home.dart';
+import 'package:transactions_app/screens/home/home.dart';
 import 'package:transactions_app/screens/login_screens/account_create_form.dart';
 import 'package:transactions_app/screens/login_screens/pin_configuration.dart';
 import 'package:transactions_app/screens/navigation_bar/navigation_bar.dart';
