@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
@@ -34,32 +33,27 @@ class _HomeState extends State<Home> {
         });
       });
     }
-
-    _future = getUrl();
   }
 
-  Future<String> _future;
 
-  Future<String> getUrl() async {
-    DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection('test').doc('semir').get();
 
-    return snapshot.get('url');
-  }
+
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  Key _buttonKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: _userData == null ?
+      Scaffold(
+        backgroundColor: Palette.themeGreen,
+        body: Center(child: SizedBox(
+            height: 100,
+            width: 100,
+            child: CircularProgressIndicator( strokeWidth: 10,backgroundColor: Colors.grey, valueColor:  AlwaysStoppedAnimation<Color>(Palette.themeGreen),))),
+      ):
+      Scaffold(
         backgroundColor: Palette.themeGreen,
         key: _drawerKey,
-          body: _userData == null ?
-          Center(child: SizedBox(
-              height: 100,
-              width: 100,
-              child: CircularProgressIndicator( strokeWidth: 10,backgroundColor: Colors.grey, valueColor:  AlwaysStoppedAnimation<Color>(Palette.themeGreen),))) :
-          Stack(
+        body: Stack(
             children: [
               Container(
                 width: double.infinity,
@@ -286,7 +280,7 @@ class _HomeState extends State<Home> {
   }
 
   Future _getAccountData() async {
-    return await widget._firestoreProvider.getUserData(_currentUser.uid);
+    return await widget._firestoreProvider.getUserData(current: true);
   }
 
   _quickActionsChange() {

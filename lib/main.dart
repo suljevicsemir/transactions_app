@@ -5,6 +5,7 @@ import 'package:transactions_app/screens/home/home.dart';
 import 'package:transactions_app/screens/login_screens/account_create_form.dart';
 import 'package:transactions_app/screens/login_screens/pin_configuration.dart';
 import 'package:transactions_app/screens/navigation_bar/navigation_bar.dart';
+import 'package:transactions_app/screens/personalization/personalization.dart';
 import 'package:transactions_app/screens/pin_screen.dart';
 import 'package:transactions_app/screens/wrapper.dart';
 
@@ -28,7 +29,8 @@ class App extends StatelessWidget {
         Home.route : (context) => Home(),
         AccountCreate.route : (context) => AccountCreate(),
         AppNavigationBar.route : (context) => AppNavigationBar(),
-        CustomerSupportScreen.route : (context) => CustomerSupportScreen()
+        CustomerSupportScreen.route : (context) => CustomerSupportScreen(),
+        Personalization.route : (context) => Personalization()
       },
     );
   }

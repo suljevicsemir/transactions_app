@@ -18,7 +18,7 @@ class _DrawerItemState extends State<DrawerItem> {
 
   bool _pressed = false;
 
-  changePressed() {
+  _changePressed() {
     setState(() {
       if(_pressed == false)
         _pressed = true;
@@ -26,16 +26,30 @@ class _DrawerItemState extends State<DrawerItem> {
     });
   }
 
+  //opens screen accordingly to the title
+  _openScreen(String title) async{
+    if(title == 'Account info') {
+      Future.delayed(const Duration(milliseconds: 400), () {
+        Navigator.of(context).pushNamed('/account_info');
+        _changePressed();
+      });
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        //TODO
+      onTap: ()  {
+        _changePressed();
+        _openScreen(widget.title);
       },
-      onLongPress: () {
-        changePressed();
+      onLongPress: () async {
+        _changePressed();
         Timer(const Duration(milliseconds: 450), () {
-          changePressed();
+          _changePressed();
         });
       },
       child : AnimatedContainer(

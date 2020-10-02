@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:transactions_app/palette.dart';
 

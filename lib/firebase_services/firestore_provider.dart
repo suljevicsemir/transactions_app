@@ -10,8 +10,12 @@ class FirestoreProvider {
   var stream = FirebaseFirestore.instance.collection('accounts')
   .doc(FirebaseAuth.instance.currentUser.uid).collection('transfers').snapshots();
 
-  getUserData(String id) async{
+  Future getUserData({String id, bool current}) async{
+    if(current == true)
+      return Account.fromSnapshot((await _accounts.doc(FirebaseAuth.instance.currentUser.uid).get()));
+
     return  Account.fromSnapshot((await _accounts.doc(id).get()));
+
   }
 
   sendMessageToCustomerSupport(String message) async {
