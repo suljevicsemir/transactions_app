@@ -19,8 +19,8 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
   final _storageProvider = StorageProvider();
   final _firestore = FirestoreProvider();
   Account _userData;
-  String _imageURL;
-
+  AnimationController _controller;
+  Animation<Offset> _offsetFloat;
 
   Uint8List imageBytes;
   String errorMsg;
@@ -52,8 +52,19 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
     });
     _loadImage();
 
+    _prepareAnimation();
 
 
+  }
+
+  _prepareAnimation() {
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1300)
+    );
+
+    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 10.0), end: Offset(0.0, 0.0) ).animate(_controller);
+    _controller.forward();
   }
 
 
@@ -175,11 +186,11 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
                   ],
                   flexibleSpace: LayoutBuilder(
                     builder: (context, constraints) {
-                        _top = constraints.biggest.height;
+                      _top = constraints.biggest.height;
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 900),
                         child : FlexibleSpaceBar(
-                          titlePadding: EdgeInsets.only(left: _top <= 100 ? 50 : 30, bottom: 15),
+                            titlePadding: EdgeInsets.only(left: _top <= 100 ? 50 : 30, bottom: 15),
                             title: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 500),
                               style: _top <= 100 ? TextStyle(color: Colors.black, fontSize: 20) :
@@ -188,24 +199,24 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
                               //curve: Curves.fastLinearToSlowEaseIn,
                             ),
                             background: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child,),
-                              child: imageBytes == null ?
-                              Container(
-                                key: ValueKey<int>(0),
-                              )
-                              :
-                              Container(
-                                key: ValueKey<int>(1),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff7c94b6),
-                                  image: DecorationImage(
-                                    image: MemoryImage(imageBytes),
-                                      colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.dstATop),
-                                    fit: BoxFit.fill
-                                  )
-                                ),
-                              )
+                                duration: const Duration(milliseconds: 300),
+                                transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child,),
+                                child: imageBytes == null ?
+                                Container(
+                                  key: ValueKey<int>(0),
+                                )
+                                    :
+                                Container(
+                                  key: ValueKey<int>(1),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xff7c94b6),
+                                      image: DecorationImage(
+                                          image: MemoryImage(imageBytes),
+                                          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.dstATop),
+                                          fit: BoxFit.fill
+                                      )
+                                  ),
+                                )
                             )
 
                         ),
@@ -219,12 +230,28 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
           ];
         },
         body: SingleChildScrollView(
-          child : Container(
-            child: Column(
-              children: [
-
-              ],
-            ),
+          child : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SlideTransition(
+                position: _offsetFloat,
+                child: Container(
+                  margin: EdgeInsets.only(left: 5, top: 5),
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Palette.themeGreen, width: 3)
+                  ),
+                  child: Column(
+                    children: [
+                      Text(_userData.balance.toString(), style: TextStyle(color: Colors.blue, fontSize: 20),),
+                      Text('Balance', style: TextStyle(fontSize: 16, color: Colors.white),)
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
         )
     );
