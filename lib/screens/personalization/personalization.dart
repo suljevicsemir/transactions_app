@@ -37,7 +37,7 @@ class _PersonalizationState extends State<Personalization> {
         curve: Curves.easeInCubic,
         duration: const Duration(seconds: 1),
           decoration: BoxDecoration(
-            color: _shouldPaint == true ? Colors.black.withOpacity(0.7) : Colors.white
+            color: Colors.grey[100]
           ),
           child: PersonalizationScreen())
     );
@@ -50,7 +50,7 @@ class _PersonalizationState extends State<Personalization> {
   void initState() {
     super.initState();
     Timer(const Duration(microseconds: 700), () {
-      _paint();
+      //_paint();
     });
   }
 }

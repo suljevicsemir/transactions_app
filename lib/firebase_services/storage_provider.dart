@@ -31,6 +31,11 @@ class StorageProvider{
 
   }
 
+  Future<void> deleteProfilePicture() async {
+    final StorageReference storageReference = FirebaseStorage.instance.ref();
+    await storageReference.child("profilePictures/${FirebaseAuth.instance.currentUser.uid}").delete();
+  }
+
 
   Future<dynamic> loadImage() async {
     String uid = auth.currentUser.uid;

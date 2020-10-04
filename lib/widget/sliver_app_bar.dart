@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,19 +9,26 @@ import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/firebase_services/storage_provider.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
-
+import 'package:transactions_app/screens/personalization/personalization_widgets/user_data_display.dart';
 class PersonalizationScreen extends StatefulWidget {
   @override
   _PersonalizationScreenState createState() => _PersonalizationScreenState();
 }
 
-class _PersonalizationScreenState extends State<PersonalizationScreen>  with SingleTickerProviderStateMixin {
+class _PersonalizationScreenState extends State<PersonalizationScreen> with TickerProviderStateMixin {
 
   final _storageProvider = StorageProvider();
   final _firestore = FirestoreProvider();
   Account _userData;
-  AnimationController _controller;
-  Animation<Offset> _offsetFloat;
+  AnimationController _firstRowController;
+  AnimationController _secondRowController;
+  AnimationController _thirdRowController;
+  Animation<Offset> _offsetFirstRow;
+  Animation<Offset> _offsetSecondRow;
+  Animation<Offset> _offsetThirdRow;
+
+
+
 
   Uint8List imageBytes;
   String errorMsg;
@@ -28,11 +36,12 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
   _loadImage() async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     try {
-     await FirebaseStorage.instance.ref().child('profilePictures/$uid').getData(100000000).then((value) =>
-          setState(() {
-            imageBytes = value;
-          })
-      );
+     await FirebaseStorage.instance.ref().child('profilePictures/$uid').getData(100000000).then((value) {
+       setState(() {
+         imageBytes = value;
+       });
+     } );
+
     } catch( e) {
       print(e.error.toString());
     }
@@ -54,22 +63,45 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
 
     _prepareAnimation();
 
+    Timer(const Duration(milliseconds: 200), ()  {
+      _prepareThirdRow();
+    });
+
 
   }
 
-  _prepareAnimation() {
-    _controller = AnimationController(
+  _prepareAnimation()  {
+    _firstRowController = AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 1300)
+        duration: const Duration(milliseconds: 1500)
+    );
+    _secondRowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500)
     );
 
-    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 10.0), end: Offset(0.0, 0.0) ).animate(_controller);
-    _controller.forward();
+
+
+    _offsetFirstRow = Tween<Offset>(begin: Offset(0.0, 10.0), end: Offset(0.0, 0.0) ).animate(_firstRowController);
+    _offsetSecondRow = Tween<Offset>(begin: Offset(4.0, 0.5), end: Offset(0.0, 0.5) ).animate(_secondRowController);
+    _firstRowController.forward();
+    _secondRowController.forward();
   }
 
+  _prepareThirdRow() {
+    _thirdRowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1300)
+    );
+    _offsetThirdRow = Tween<Offset>(begin: Offset(4.0, 0.5), end: Offset(0.0, 0.5) ).animate(_thirdRowController);
+    _thirdRowController.forward();
+  }
 
+  String x = 'asdas';
   @override
   void dispose() {
+    _firstRowController.dispose();
+    _secondRowController.dispose();
     super.dispose();
   }
 
@@ -88,7 +120,11 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
             Container(
               margin: EdgeInsets.only(top: 5, bottom: 5),
               child: ListTile(
-                onTap: () => _storageProvider.updateProfilePictureFromGallery(),
+                onTap: ()  {
+                  _storageProvider.updateProfilePictureFromGallery();
+                  Navigator.of(context).pop();
+                  //initState();
+                },
                 leading: ClipOval(
                   child: Material(
                     color: Colors.green,
@@ -128,7 +164,11 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
             Container(
               margin: EdgeInsets.only(top: 5, bottom: 5),
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  _storageProvider.deleteProfilePicture();
+                  Navigator.of(context).pop();
+               // initState();
+                },
                 leading: ClipOval(
                   child: Material(
                     color: Colors.red,
@@ -204,6 +244,9 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
                                 child: imageBytes == null ?
                                 Container(
                                   key: ValueKey<int>(0),
+                                  decoration: BoxDecoration(
+
+                                  ),
                                 )
                                     :
                                 Container(
@@ -230,32 +273,60 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>  with Sin
           ];
         },
         body: SingleChildScrollView(
-          child : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SlideTransition(
-                position: _offsetFloat,
-                child: Container(
-                  margin: EdgeInsets.only(left: 5, top: 5),
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Palette.themeGreen, width: 3)
-                  ),
-                  child: Column(
-                    children: [
-                      Text(_userData.balance.toString(), style: TextStyle(color: Colors.blue, fontSize: 20),),
-                      Text('Balance', style: TextStyle(fontSize: 16, color: Colors.white),)
-                    ],
+          padding: EdgeInsets.zero,
+          child : Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SlideTransition(
+                  position: _offsetFirstRow,
+                  child: UserDataDisplay(dataLeft: _userData.balance, labelLeft: 'Balance', dataRight: _userData.limit, labelRight: 'Limit', inline: false,)
+                ),
+                SlideTransition(
+                  position: _offsetSecondRow,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_userData.monthLimit.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, letterSpacing: 1.0),),
+                        Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text('Month limit', style: TextStyle(color: Colors.grey[600], fontSize: 16),)
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              )
-            ],
+                SlideTransition(
+                  position: _offsetThirdRow,
+                  child:  Container(
+                    margin: EdgeInsets.only(left: 10, top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(_userData.email, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, letterSpacing: 1.0),),
+                        Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text('Email', style: TextStyle(color: Colors.grey[600], fontSize: 16),)
+                        )
+                      ],
+                    ),
+                  ),
+                )
+
+              ],
+            ),
           ),
         )
     );
   }
+
+
 }
 
 
