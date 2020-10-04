@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firebase_authentication.dart';
@@ -85,27 +87,29 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                   padding: EdgeInsets.only(top: 15, bottom: 15),
                   onPressed: () async{
                     bool x = await _firebaseAuthentication.createAccount(
-                        AccountRegistrationModel(email: _emailController.text,
+                        AccountRegistrationModel(
+                            email: _emailController.text,
                             password: _passwordController.text,
                             firstName: _firstNameController.text,
                             lastName: _lastNameController.text,
                             displayName: _displayNameController.text)
                     );
+
                     if( x ) {
                       Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text('Account created successfully!'),
-                        backgroundColor: Colors.yellowAccent,
-                        duration: const Duration(milliseconds: 400),
+                        content: Text('Account created successfully!', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),),
+                        backgroundColor: Colors.grey[600],
+                        duration: const Duration(seconds: 3),
                       ));
-                      Future.delayed(const Duration(milliseconds: 450), () {
-                        Navigator.pushReplacementNamed(context, '/home');
+                      Future.delayed(const Duration(milliseconds: 3500), () {
+                        Navigator.pushReplacementNamed(context, '/pin');
                       });
                     }
                     else {
                       Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text('Something went wrong. Try again'),
                         backgroundColor: Colors.pinkAccent,
-                        duration: const Duration(milliseconds: 300),
+                        duration: const Duration(seconds: 3),
                       ));
                     }
                   },

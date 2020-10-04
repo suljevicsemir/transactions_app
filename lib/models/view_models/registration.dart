@@ -20,9 +20,9 @@ class AccountRegistrationModel{
       'firstName' : firstName,
       'lastName' : lastName,
       'displayName' : displayName,
-      'balance' : 10000,
-      'limit' : -1000,
-      'monthLimit' : 5000
+      'balance' : 10000.25,
+      'limit' : -1000.25,
+      'monthLimit' : 5000.25
     };
   }
 

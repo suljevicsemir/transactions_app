@@ -20,7 +20,7 @@ class _ExpensesState extends State<Expenses> with SingleTickerProviderStateMixin
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1)
+      duration: const Duration(milliseconds: 1200)
     );
 
     _offsetFloat = Tween<Offset>(begin: Offset(1.0, 3.0), end: Offset(1.0, 0.0) ).animate(_controller);

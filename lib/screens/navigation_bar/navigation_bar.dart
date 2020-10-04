@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:transactions_app/palette.dart';
-import 'package:transactions_app/screens/add_transfer.dart';
+import 'package:transactions_app/screens/add_transfer/add_transfer.dart';
 import 'package:transactions_app/screens/contacts.dart';
 import 'package:transactions_app/screens/expenses.dart';
 import 'package:transactions_app/screens/home/home.dart';
