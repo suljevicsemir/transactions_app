@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:transactions_app/models/account.dart';
+import 'package:transactions_app/models/transfer.dart';
 
 class FirestoreProvider {
 
@@ -84,6 +85,40 @@ class FirestoreProvider {
     });
   }
 
+  sendTransfer(Transfer transfer) async {
+
+    await _accounts.doc(transfer.senderId).collection('transfers').add({
+      'senderId' : transfer.senderId,
+      'receiverId' : transfer.receiverId,
+      'transferAmount' : transfer.transferAmount,
+      'transferName' : transfer.transferName,
+      'timestamp' : transfer.timestamp
+    });
+
+    await _accounts.doc(transfer.receiverId).collection('transfers').add({
+      'senderId' : transfer.senderId,
+      'receiverId' : transfer.receiverId,
+      'transferAmount' : transfer.transferAmount,
+      'transferName' : transfer.transferName,
+      'timestamp' : transfer.timestamp
+    });
+
+
+  }
+
+
+  //quick solution for sending transfers
+  Future<String> getIdFromEmail(String email) async {
+    String id;
+
+    var x =  await FirebaseFirestore.instance.collection('accounts').where('email', isEqualTo: email).get();
+    x.docs.forEach((element) {
+      id = element.id;
+      return;
+    });
+
+    return id;
+  }
 
 
 }

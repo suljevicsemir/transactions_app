@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
                    color: Palette.themeGreen,
                    onPressed: () {
                      _firebaseAuthentication.signIn(AccountLoginModel(_emailController.text, _passwordController.text));
-                     Navigator.pushReplacementNamed(context, '/');
+                     Navigator.pushReplacementNamed(context, '/home');
                      _emailController.clear();
                      _passwordController.clear();
 

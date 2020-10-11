@@ -1,6 +1,9 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transactions_app/firebase_services/firestore_provider.dart';
+import 'package:transactions_app/models/transfer.dart';
 import 'package:transactions_app/palette.dart';
 
 class AddTransfer extends StatefulWidget {
@@ -11,12 +14,15 @@ class AddTransfer extends StatefulWidget {
 class _AddTransferState extends State<AddTransfer> {
 
 
-  int _count = 0;
+  final _emailController = TextEditingController();
+  final _amountController = TextEditingController();
+  final _firestoreProvider = FirestoreProvider();
 
-  _incrementCount() {
-    setState(() {
-      _count++;
-    });
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _amountController.dispose();
+    super.dispose();
   }
 
   final _separatorTextStyle = TextStyle(
@@ -25,11 +31,32 @@ class _AddTransferState extends State<AddTransfer> {
     fontWeight: FontWeight.w200
   );
 
+
+  _createTransaction() async{
+
+    String receiverId = await _firestoreProvider.getIdFromEmail(_emailController.text);
+
+    Transfer transfer = Transfer(
+      senderId: FirebaseAuth.instance.currentUser.uid,
+      receiverId: receiverId,
+      transferAmount: double.parse(_amountController.text),
+      transferName: 'Test'
+    );
+
+    setState(() {
+      _emailController.clear();
+      _amountController.clear();
+    });
+
+    return transfer;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           iconTheme: IconThemeData(
             color: Colors.white
@@ -59,7 +86,7 @@ class _AddTransferState extends State<AddTransfer> {
                       child: Container(
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: TextField(
-
+                          controller: _emailController,
                         ),
                       )
                     )
@@ -80,9 +107,9 @@ class _AddTransferState extends State<AddTransfer> {
                   children: [
                     Flexible(
                       child: Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 50),
                         child: TextField(
-
+                          controller: _amountController,
                         ),
                       ),
                     )
@@ -98,6 +125,16 @@ class _AddTransferState extends State<AddTransfer> {
                 ),
                 child: Text('Save as pattern?', style: _separatorTextStyle,),
               ),
+              SizedBox(height: 30,),
+              RaisedButton(
+                color: Palette.themeGreen,
+                splashColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)
+                ),
+                onPressed: ( )async  => await _firestoreProvider.sendTransfer(await _createTransaction()),
+                child: Text('Submit transfer'),
+              )
             ],
           ),
         ),

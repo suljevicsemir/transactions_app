@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/account.dart';
@@ -22,6 +23,29 @@ class _HomeState extends State<Home> {
   Account _userData;
   var _dynamicHeight = 0.0;
   bool isQuickActionsShowed = false;
+  final _firebaseMessaging = FirebaseMessaging();
+
+
+  _getToken() {
+    _firebaseMessaging.getToken().then((token) {
+      //print("Device token: $token");
+    });
+  }
+
+  _configureFirebaseListeners() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message ) async {
+        print('onLaunch: $message');
+      },
+      onLaunch: (Map<String, dynamic> message ) async {
+        print('onLaunch: $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume: $message');
+      }
+    );
+  }
+
 
   @override
   void initState() {
@@ -33,6 +57,9 @@ class _HomeState extends State<Home> {
         });
       });
     }
+
+    _getToken();
+    _configureFirebaseListeners();
   }
 
 

@@ -122,7 +122,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: _buildNavigationBar(_navigationBarIndex),
       body: PageStorage(
         child: _pages[_navigationBarIndex],
