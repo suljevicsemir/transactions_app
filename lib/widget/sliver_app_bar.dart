@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/firebase_services/storage_provider.dart';
 import 'package:transactions_app/models/account.dart';
@@ -54,6 +55,10 @@ class _PersonalizationScreenState extends State<PersonalizationScreen> with Tick
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light
+    ));
     _firestore.getUserData(current: true).then((value) {
       setState(() {
         _userData = value;

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/screens/add_transfer/add_transfer.dart';
-import 'package:transactions_app/screens/contacts.dart';
+import 'package:transactions_app/screens/chats/chats.dart';
 import 'package:transactions_app/screens/expenses.dart';
 import 'package:transactions_app/screens/home/home.dart';
 class AppNavigationBar extends StatefulWidget {
@@ -111,7 +111,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 
       if( title == 'Contacts') {
 
-          return Icon(Icons.group, color: Colors.black,);
+          return Icon(Icons.message_outlined, color: Colors.black,);
 
       }
 
