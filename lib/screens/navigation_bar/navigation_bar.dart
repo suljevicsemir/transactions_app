@@ -9,12 +9,13 @@ import 'package:transactions_app/screens/home/home.dart';
 class AppNavigationBar extends StatefulWidget {
 
   static const route = '/navigationBar';
-
+  final PageStorageKey pageStorageKey = PageStorageKey("testKey");
   @override
   _AppNavigationBarState createState() => _AppNavigationBarState();
 }
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
+
 
   int _navigationBarIndex = 0;
 
@@ -24,6 +25,15 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     AddTransfer(),
     Contacts()
   ];
+
+  final IndexedStack _stack = IndexedStack(
+    children: [
+      Home(),
+      Expenses(),
+      AddTransfer(),
+      Contacts()
+    ],
+  );
 
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -124,10 +134,15 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: _buildNavigationBar(_navigationBarIndex),
-      body: PageStorage(
-        child: _pages[_navigationBarIndex],
-        bucket: bucket,
-      ),
+      body: IndexedStack(
+        children: [
+          Home(),
+          Expenses(),
+          AddTransfer(),
+          Contacts()
+        ],
+        index: _navigationBarIndex,
+      )
     );
   }
 }
