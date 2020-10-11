@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +36,7 @@ class _PersonalizationScreenState extends State<PersonalizationScreen> with Tick
   _loadImage() async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     try {
-     await FirebaseStorage.instance.ref().child('profilePictures/$uid').getData(100000000).then((value) {
+     await _storageProvider.storageReference(uid).getData(100000000).then((value) {
        setState(() {
          imageBytes = value;
        });

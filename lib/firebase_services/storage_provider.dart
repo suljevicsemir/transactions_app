@@ -49,6 +49,10 @@ class StorageProvider{
     return url;
   }
 
+  storageReference(String uid) {
+    return storage.ref().child('profilePictures/$uid');
+  }
+
 
 
 

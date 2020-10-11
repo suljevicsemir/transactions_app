@@ -10,7 +10,11 @@ class FirestoreProvider {
   final _accounts = FirebaseFirestore.instance.collection('accounts');
   var stream = FirebaseFirestore.instance.collection('accounts')
   .doc(FirebaseAuth.instance.currentUser.uid).collection('transfers').snapshots();
+  final  userChats = FirebaseFirestore.instance.collection('accounts').doc(FirebaseAuth.instance.currentUser.uid).collection('chats').snapshots();
 
+  static FirebaseFirestore instance() {
+    return FirebaseFirestore.instance;
+  }
   Future getUserData({String id, bool current}) async{
     if(current == true)
       return Account.fromSnapshot((await _accounts.doc(FirebaseAuth.instance.currentUser.uid).get()));

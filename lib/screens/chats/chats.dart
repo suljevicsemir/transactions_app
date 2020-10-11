@@ -1,7 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/palette.dart';
+import 'package:transactions_app/screens/chats/widgets/chat_tile.dart';
 
 class Contacts extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class Contacts extends StatefulWidget {
 
 class _ContactsState extends State<Contacts> {
 
-
+  final FirestoreProvider _firestore = FirestoreProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,18 @@ class _ContactsState extends State<Contacts> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-          ],
+        child: StreamBuilder(
+          stream: _firestore.userChats,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData) return CircularProgressIndicator();
+            return Container(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(color: Colors.black, height: 0.0,),
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) => ChatTile(snapshot.data.documents[index])
+              ),
+            );
+          }
         ),
       ),
     );

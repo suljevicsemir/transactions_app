@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
 
   _getToken() {
     _firebaseMessaging.getToken().then((token) {
-      //print("Device token: $token");
+      print("Device token: $token");
     });
   }
 
