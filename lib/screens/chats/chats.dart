@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
-import 'package:transactions_app/palette.dart';
+import 'package:transactions_app/screens/chats/search_delegate/search_delegate.dart';
 import 'package:transactions_app/screens/chats/widgets/chat_tile.dart';
+import 'package:transactions_app/screens/chats/widgets/custom_app_bar.dart';
 
 class Contacts extends StatefulWidget {
   @override
@@ -13,6 +12,7 @@ class Contacts extends StatefulWidget {
 class _ContactsState extends State<Contacts> {
 
   final FirestoreProvider _firestore = FirestoreProvider();
+  final smtng = SearchAccounts();
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +20,7 @@ class _ContactsState extends State<Contacts> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: AppBar(
-          elevation: 0.0,
-          backgroundColor: Palette.themeGreen,
-          automaticallyImplyLeading: false,
-          title: Text('Demo Chat App', style: TextStyle(color: Colors.black, fontSize: 22),),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.search, color: Colors.black,),
-              splashColor: Colors.white,
-            )
-          ],
-        ),
-      ),
+      appBar: ChatsAppBar(context),
       body: SafeArea(
         child: StreamBuilder(
           stream: _firestore.userChats,

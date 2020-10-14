@@ -36,7 +36,7 @@ class _ChatTileState extends State<ChatTile> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        height: 95,
+        height: 80,
         color: tapped == true ? Colors.grey : Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

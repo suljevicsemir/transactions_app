@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/models/transfer.dart';
+import 'package:transactions_app/models/view_models/search_account_data.dart';
 
 class FirestoreProvider {
 
@@ -122,6 +123,16 @@ class FirestoreProvider {
     });
 
     return id;
+  }
+
+  Future<List<SearchAccountData>> getAllAccounts() async {
+    List<SearchAccountData> accountsList = List<SearchAccountData>();
+    QuerySnapshot accounts = await _accounts.get();
+    var list = accounts.docs;
+    for(int i = 0; i < list.length; i++) {
+      accountsList.add(SearchAccountData.fromJson(list.elementAt(i)));
+    }
+    return accountsList;
   }
 
 
