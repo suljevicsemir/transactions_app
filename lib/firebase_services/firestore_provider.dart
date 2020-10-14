@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/models/transfer.dart';
 import 'package:transactions_app/models/view_models/search_account_data.dart';
+import 'package:transactions_app/screens/chat/chat.dart';
 
 class FirestoreProvider {
 
@@ -134,6 +135,48 @@ class FirestoreProvider {
     }
     return accountsList;
   }
+
+  //passing userId as a parameter
+  //checks if current user already has communicated with
+  //userId user
+  //returns a String, representing chat id that is going to be open
+  Future<ChatInfo> chatHandler(String userId) async{
+    print('called');
+    String currentUserId = FirebaseAuth.instance.currentUser.uid;
+    String documentId = userId.compareTo(currentUserId) < 0 ? (userId + currentUserId) : (currentUserId + userId);
+    DocumentSnapshot x =  await FirebaseFirestore.instance.collection('chats').doc(documentId).get();
+    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('accounts').doc(userId).get();
+    DocumentSnapshot currentUserData = await FirebaseFirestore.instance.collection('accounts').doc(currentUserId).get();
+    //chat does not exist, need to be created
+    //adding to chats for every user
+    //last message will be null
+    //that way I can exclude chats that don't have any messages
+    if( x.exists == false) {
+
+      print('document ne postoji!');
+      String nullString;
+      await FirebaseFirestore.instance.collection('chats').doc(documentId).set({
+        'userCreatedId' : currentUserId,
+        'userParticipantId' : userId
+      });
+      await FirebaseFirestore.instance.collection('accounts').doc(currentUserId).collection('chats').doc(documentId).set({
+        'participantUserId' : userId,
+        'displayName': userData.get('displayName'),
+        'lastMessage' : nullString
+      });
+
+      await FirebaseFirestore.instance.collection('accounts').doc(userId).collection('chats').doc(documentId).set({
+        'participantUserId' : currentUserId,
+        'displayName' : currentUserData.get('displayName'),
+        'lastMessage' : nullString
+      });
+
+    }
+    return ChatInfo(chatId: documentId, userId: userId, userDisplayName: userData.get('displayName'));
+
+  }
+
+
 
 
 }

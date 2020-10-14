@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
-import 'package:transactions_app/screens/chats/search_delegate/search_delegate.dart';
 import 'package:transactions_app/screens/chats/widgets/chat_tile.dart';
 import 'package:transactions_app/screens/chats/widgets/custom_app_bar.dart';
 
@@ -12,7 +12,6 @@ class Contacts extends StatefulWidget {
 class _ContactsState extends State<Contacts> {
 
   final FirestoreProvider _firestore = FirestoreProvider();
-  final smtng = SearchAccounts();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,12 @@ class _ContactsState extends State<Contacts> {
               child: ListView.separated(
                 separatorBuilder: (context, index) => Divider(color: Colors.black, height: 0.0,),
                 itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) => ChatTile(snapshot.data.documents[index])
+                itemBuilder: (context, index) {
+                  DocumentSnapshot x = snapshot.data.documents[index];
+                  if(x.get('lastMessage') == null)
+                    return Container();
+                  return ChatTile(snapshot.data.documents[index]);
+                }
               ),
             );
           }

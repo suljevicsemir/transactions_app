@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Palette.themeGreen,
-        title: Text('User Display Name', style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 1.0),),
+        title: Text(widget.chatInfo.userDisplayName, style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 1.0),),
         actions: [
           Container(
             margin: EdgeInsets.only(right: 20),

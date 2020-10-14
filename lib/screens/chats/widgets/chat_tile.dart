@@ -20,10 +20,16 @@ class _ChatTileState extends State<ChatTile> {
   //TODO last message seen shit
 
 
+
   _messageTimeAgo(Timestamp t) {
     return timeago.format(t.toDate(), locale: 'en_short');
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

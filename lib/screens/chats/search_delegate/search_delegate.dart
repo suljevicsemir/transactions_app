@@ -1,5 +1,6 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/view_models/search_account_data.dart';
@@ -57,7 +58,9 @@ class SearchAccounts extends SearchDelegate {
     if(query.length < 2) return Container();
 
     for(int i = 0; i < _accountData.length; i++) {
-      if(_accountData.elementAt(i).firstName.toUpperCase().startsWith(query.toUpperCase())) {
+      if(_accountData.elementAt(i).id == FirebaseAuth.instance.currentUser.uid)
+        continue;
+      if(_accountData.elementAt(i).firstName.toUpperCase().startsWith(query.toUpperCase()) || _accountData.elementAt(i).lastName.toUpperCase().startsWith(query.toUpperCase())) {
         displayList.add(_accountData.elementAt(i));
         print('HIT ${_accountData.elementAt(i).firstName}');
         print('DISPLAY LIST LENGTH : ${displayList.length.toString()}');

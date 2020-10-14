@@ -6,7 +6,7 @@ import 'package:transactions_app/screens/chats/search_delegate/search_delegate.d
 class ChatsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final BuildContext buildcontext;
   ChatsAppBar(this.buildcontext);
-
+  final smtng = SearchAccounts();
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -18,7 +18,7 @@ class ChatsAppBar extends StatelessWidget implements PreferredSizeWidget {
         Container(
           margin: EdgeInsets.only(top: 15),
           child: IconButton(
-            onPressed: () => showSearch(context: buildcontext, delegate: SearchAccounts()),
+            onPressed: () => showSearch(context: buildcontext, delegate: smtng),
             icon: Icon(Icons.search, color: Colors.black,),
             splashColor: Colors.white,
             splashRadius: 25,
