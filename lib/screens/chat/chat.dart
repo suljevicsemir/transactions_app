@@ -1,4 +1,4 @@
-
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final _textFieldController = TextEditingController();
   Stream _chatStream;
   bool _hasText = false;
+  final ScrollController _scrollController = ScrollController();
 
 
   @override
@@ -42,6 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     _textFieldController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -52,9 +54,22 @@ class _ChatScreenState extends State<ChatScreen> {
     await _chatService.sendMessage(MessageSend(chatId: widget.chatInfo.chatId, messageText: text, receiverId: widget.chatInfo.userId));
   }
 
+  _scrollChatToBottom() {
+    if(_scrollController.hasClients) {
+      _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          curve: Curves.linear,
+          duration: const Duration(milliseconds: 50)
+      );
+    }
+    else {
+      Timer(const Duration(milliseconds: 20), () => _scrollChatToBottom());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('view insets bottom: ${MediaQuery.of(context).viewInsets.bottom.toString()}');
+    _scrollChatToBottom();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -94,6 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   return Container(
                     //color: Colors.blue,
                     child: ListView.builder(
+                      controller: _scrollController,
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) => _buildMessage(context, snapshot.data.documents[index])
@@ -132,6 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Container(
                             margin: EdgeInsets.only(left: 8),
                             child: TextField(
+                              onTap: () => _scrollChatToBottom(),
                               controller: _textFieldController,
                               decoration: InputDecoration(
                                   hintText: 'Type a message...',
