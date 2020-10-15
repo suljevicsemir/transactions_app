@@ -41,7 +41,6 @@ class _PersonalizationScreenState extends State<PersonalizationScreen> with Tick
          imageBytes = value;
        });
      } );
-
     } catch( e) {
       print(e.error.toString());
     }

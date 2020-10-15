@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:transactions_app/assets/images_pathes.dart';
+import 'package:transactions_app/firebase_services/storage_provider.dart';
 import 'package:transactions_app/screens/chat/chat.dart';
 
 class ChatTile extends StatefulWidget {
 
   final DocumentSnapshot snapshot;
+
   ChatTile(this.snapshot);
 
   @override
@@ -19,6 +22,22 @@ class _ChatTileState extends State<ChatTile> {
   bool tapped = false;
   //TODO last message seen shit
 
+  Uint8List imageBytes;
+  final _storageProvider = StorageProvider();
+  _loadProfilePicture() async {
+
+    String id = widget.snapshot.get('participantUserId');
+    try {
+      await _storageProvider.storageReference('lewis_hamilton.0').getData(10000000).then((value) {
+        setState(() {
+          imageBytes = value;
+        });
+      });
+      print('funkcija loadanja uspjesna');
+    } catch( e) {
+      print(e.toString());
+    }
+  }
 
 
   _messageTimeAgo(Timestamp t) {
@@ -29,6 +48,9 @@ class _ChatTileState extends State<ChatTile> {
   @override
   void initState() {
     super.initState();
+    print('pozvala se init state');
+    _loadProfilePicture();
+
   }
 
   @override
@@ -69,7 +91,8 @@ class _ChatTileState extends State<ChatTile> {
             Container(
               margin: EdgeInsets.only(left: 20),
               child: CircleAvatar(
-                backgroundImage: AssetImage(ImagesPaths.avatarWhiteMale),
+                backgroundImage: imageBytes == null ?
+                AssetImage(ImagesPaths.avatarWhiteMale) : MemoryImage(imageBytes),
                 radius: 30.0,
                 backgroundColor: Colors.transparent,
               ),
