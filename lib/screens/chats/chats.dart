@@ -31,7 +31,7 @@ class _ContactsState extends State<Contacts> {
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot x = snapshot.data.documents[index];
-                  if(x.get('lastMessage') == null)
+                  if(x.get('lastMessage') == " ")
                     return Container();
                   return ChatTile(snapshot.data.documents[index]);
                 }

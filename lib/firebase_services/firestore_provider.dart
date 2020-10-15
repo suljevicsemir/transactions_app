@@ -152,23 +152,32 @@ class FirestoreProvider {
     //last message will be null
     //that way I can exclude chats that don't have any messages
     if( x.exists == false) {
-
       print('document ne postoji!');
-      String nullString;
-      await FirebaseFirestore.instance.collection('chats').doc(documentId).set({
+      Timestamp timestamp = Timestamp.now();
+      await FirebaseFirestore.instance.runTransaction((transaction) async{
+        transaction.set(FirebaseFirestore.instance.collection('chats').doc(documentId), {
         'userCreatedId' : currentUserId,
         'userParticipantId' : userId
-      });
-      await FirebaseFirestore.instance.collection('accounts').doc(currentUserId).collection('chats').doc(documentId).set({
-        'participantUserId' : userId,
-        'displayName': userData.get('displayName'),
-        'lastMessage' : nullString
+        });
       });
 
-      await FirebaseFirestore.instance.collection('accounts').doc(userId).collection('chats').doc(documentId).set({
-        'participantUserId' : currentUserId,
-        'displayName' : currentUserData.get('displayName'),
-        'lastMessage' : nullString
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(_accounts.doc(currentUserId).collection('chats').doc(documentId), {
+        'participantUserId' : userId,
+        'displayName': userData.get('displayName'),
+        'lastMessage' : " ",
+        'lastMessageTimestamp' : timestamp
+        });
+      });
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(_accounts.doc(userId).collection('chats').doc(documentId), {
+          'participantUserId' : currentUserId,
+          'displayName' : currentUserData.get('displayName'),
+          'lastMessage' : " ",
+          'lastMessageTimestamp' : timestamp,
+        });
       });
 
     }

@@ -37,6 +37,13 @@ class _ExpensesState extends State<Expenses> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print('deactivate!');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
