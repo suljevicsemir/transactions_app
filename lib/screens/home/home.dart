@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:transactions_app/firebase_services/firestore_provider.dart';
 import 'package:transactions_app/models/account.dart';
 import 'package:transactions_app/palette.dart';
@@ -51,10 +50,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.blue,
-        statusBarBrightness: Brightness.light
-    ));
+
     if (_userData == null) {
       _getAccountData().then((value) {
         setState(() {

@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/screens/chat/chat.dart';
 import 'package:transactions_app/screens/customer_support/screen.dart';
 import 'package:transactions_app/screens/home/home.dart';
@@ -12,6 +14,9 @@ import 'package:transactions_app/screens/wrapper.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Palette.themeGreen
+  ));
   await Firebase.initializeApp();
   runApp(App());
 }

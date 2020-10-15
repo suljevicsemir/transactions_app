@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:transactions_app/firebase_services/chat_service.dart';
 import 'package:transactions_app/palette.dart';
 import 'package:transactions_app/screens/chat/message_send_view_model.dart';
@@ -30,6 +31,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Palette.themeGreen
+    ));
     _chatStream = FirebaseFirestore.instance.collection('chats').doc(widget.chatInfo.chatId).collection('messages').limit(300).snapshots();
     _textFieldController.addListener(() {
       setState(() {
@@ -71,6 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     _scrollChatToBottom();
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
@@ -209,7 +214,7 @@ class _ChatScreenState extends State<ChatScreen> {
       Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        margin: sentMessage == true ? EdgeInsets.only(right: 10, bottom: 30) : EdgeInsets.only(left: 10, bottom: 30),
+        margin: sentMessage == true ? EdgeInsets.only(right: 10, bottom: 10) : EdgeInsets.only(left: 10, bottom: 10),
         decoration: BoxDecoration(
           color: Palette.themeGreen,
           borderRadius: BorderRadius.circular(10)
