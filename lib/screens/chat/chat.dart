@@ -76,14 +76,21 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            bottom: MediaQuery.of(context).viewInsets.bottom + 100,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 96,
             child: Container(
-             //color: Colors.pink,
+           // color: Colors.pink,
               margin: EdgeInsets.only(top: 10),
               child: StreamBuilder(
                 stream: _chatStream,
                 builder: (context, snapshot) {
-                  if(!snapshot.hasData) return CircularProgressIndicator();
+                  if(!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: CircularProgressIndicator(strokeWidth: 7,)),
+                    );
+                  }
                   return Container(
                     //color: Colors.blue,
                     child: ListView.builder(
@@ -149,7 +156,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             padding: EdgeInsets.all(8),
                             color: Palette.themeGreen,
                             onPressed: () async => await _sendMessage(),
-                            icon: _hasText == true ? Icon(Icons.send) : Icon(Icons.thumb_up)
+                            icon: _hasText == true ? Icon(Icons.send) : Icon(Icons.thumb_up, size: 28,)
                           ),
                         )
                       ],
